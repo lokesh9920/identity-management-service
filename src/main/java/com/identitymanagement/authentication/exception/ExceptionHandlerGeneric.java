@@ -63,9 +63,9 @@ public class ExceptionHandlerGeneric {
 	@ExceptionHandler(value = InvalidToken.class)
 	public ResponseEntity<GenericException> handleInvalidTokens(RuntimeException exception){
 		
-		logger.error(LoggingConstants.HANDLED_EXCEPTION,HttpStatus.UNAUTHORIZED,exception.getStackTrace());
+		logger.error(LoggingConstants.HANDLED_EXCEPTION,HttpStatus.FORBIDDEN,exception.getStackTrace());
 		GenericException genericException = new GenericException(exception.getMessage());
-		return new ResponseEntity<GenericException>(genericException, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<GenericException>(genericException, HttpStatus.FORBIDDEN);
 	}
 	
 	@ExceptionHandler(value = LinkExpiredException.class)
@@ -79,9 +79,9 @@ public class ExceptionHandlerGeneric {
 	@ExceptionHandler(value = InvalidCredentials.class)
 	public ResponseEntity<GenericException> handleInvalidCredentials(RuntimeException exception){
 		
-		logger.error(LoggingConstants.HANDLED_EXCEPTION,HttpStatus.UNAUTHORIZED,exception.getStackTrace());
+		logger.error(LoggingConstants.HANDLED_EXCEPTION,HttpStatus.FORBIDDEN,exception.getStackTrace());
 		GenericException genericException = new GenericException(exception.getMessage());
-		return new ResponseEntity<GenericException>(genericException, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<GenericException>(genericException, HttpStatus.FORBIDDEN);
 	}
 	
 	@ExceptionHandler(value = ResourceNotFoundException.class)

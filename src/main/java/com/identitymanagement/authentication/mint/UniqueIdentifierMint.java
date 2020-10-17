@@ -1,4 +1,4 @@
-package com.identitymanagement.authentication.service;
+package com.identitymanagement.authentication.mint;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,6 +21,7 @@ public class UniqueIdentifierMint {
 	private long resetLinkValidity;
 	
 	private static final Logger logger = LogManager.getLogger(UniqueIdentifierMint.class);
+	
 	
 	public String getUniqueIdentifier(String userId) {
 		String encrypted = "";

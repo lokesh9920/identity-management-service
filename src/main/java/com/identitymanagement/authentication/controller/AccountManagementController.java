@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.identitymanagement.authentication.logging.LoggingConstants;
+import com.identitymanagement.authentication.mint.TokenMint;
 import com.identitymanagement.authentication.model.Password;
 import com.identitymanagement.authentication.model.UserName;
-import com.identitymanagement.authentication.service.TokenMint;
 import com.identitymanagement.authentication.service.UserService;
 
 @RestController

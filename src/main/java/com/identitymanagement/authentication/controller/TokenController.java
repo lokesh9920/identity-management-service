@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.identitymanagement.authentication.service.TokenMint;
+import com.identitymanagement.authentication.mint.TokenMint;
 
 @RestController
 @RequestMapping("/tokens/verify")
-public class AuthenticationController {
+public class TokenController {
 
 	@Autowired
 	TokenMint tokenService;
@@ -23,7 +23,7 @@ public class AuthenticationController {
 	public ResponseEntity<Object> validateToken(@RequestHeader(name = "auth-token", required = true) String jwtToken){
 		
 		
-		String userName = tokenService.validateToken(jwtToken);
+		String userName = tokenService.validateToken(jwtToken, false);
 		
 		HashMap<String, Object> successMap = new HashMap<String, Object>();
 		successMap.put("userName", userName);

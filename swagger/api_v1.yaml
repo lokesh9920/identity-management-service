@@ -15,12 +15,15 @@ tags:
     - name: user-management
     - name: account-management
     - name: token-management
+    - name: access-management
 paths:
   '/users/register':
     post: 
       summary: User Registration
       operationId: User Registration
       description: The api should be used to Register a user. Ideally consumed by frontend code.
+      security: 
+       - ApiKeyAuth: []
       tags: 
         - user-management
       requestBody:
@@ -54,10 +57,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clientError'
+        '401': 
+          description: API key is invalid or expired.
+          content: 
+            application:json: 
+              schema: 
+                $ref: '#/components/responses/UnauthorizedError'
   '/users/login': 
     post:
       summary: login an existing / registered user.
       description: The api to be consumed to verify the credentials and login a user. Ideally consumed by fontend code.
+      security: 
+        - ApiKeyAuth: []
       tags: 
         - user-management
       requestBody:
@@ -75,16 +86,24 @@ paths:
                 type: string
               description: The JWT token issued for the user.
             
-        '401': 
+        '403': 
           description: The user is not authenticated and hence not trusted to enter into the application.
           content:
               application/json:
                schema:
                   $ref: '#/components/schemas/clientError'
+        '401': 
+          description: API key is invalid or expired.
+          content: 
+            application:json: 
+              schema: 
+                $ref: '#/components/responses/UnauthorizedError'
   '/users/account-management':
     put:
       summary: Request unique link for password reset.
       description: To be consumed, to request a unique (time expiring) link to facilitate a user to reset their password. user name should be sent in request body and if user is already registered, then a unique link is sent to registered mail to reset their mail.
+      security: 
+        - ApiKeyAuth: []
       tags: 
         - account-management
       requestBody:
@@ -101,10 +120,17 @@ paths:
             application/json:
               schema:
                   $ref: '#/components/schemas/clientError'
+        '401': 
+          description: API key is invalid or expired.
+          content: 
+            application:json: 
+              schema: 
+                $ref: '#/components/responses/UnauthorizedError'
   '/users/account-management/{uniqueIdentifier}': 
     get: 
       summary: VIEW API, returns html page. The reset password link sent to user.
       description: The reset password link mailed to user, where the uuniqueIdentifier is formed with an expiring time stamp. This api returns a html page.
+      security: []
       tags: 
         - account-management
       parameters: 
@@ -120,6 +146,7 @@ paths:
     put:
       summary: Internal api. Final destination to update password.
       description: Internal api. Will be consumed by identity-management-service reset password page(link sent to mail for password reset).
+      security: []
       tags: 
         - account-management
       parameters: 
@@ -160,6 +187,8 @@ paths:
     get: 
       summary: Verify if the token is valid.
       description: To be consumed by internal micro-services to check if user is authenticated to access the application/api. This api verifies if the jwt token sent by user is valid and not expired. The signature and authenticity of the user is verified.
+      security: 
+        - ApiKeyAuth: []
       tags: 
         - token-management
       parameters: 
@@ -172,13 +201,45 @@ paths:
       responses: 
         '200': 
           description: The JWT token is verified and not expired, i.e. payload, signature are verified and also checked if user is already registered.
-        '401': 
+        '403': 
           description: The JWT token is either invalid/tampered or expired and hence the user should prove his/her authenticity by logging in again.
           content:
             application/json:
                schema:
                   $ref: '#/components/schemas/clientError'
-              
+        '401': 
+          description: API key is invalid or expired.
+          content: 
+            application:json: 
+              schema: 
+                $ref: '#/components/responses/UnauthorizedError'
+  '/accesskeys': 
+    get: 
+      summary: Check validity of API key.
+      description: Should be consumed by the customer to check the validity of the unique API key issued for them. This api is not secured. Any one can consume this api.
+      security: []
+      tags: 
+        - access-management
+      parameters: 
+        - in: query
+          name: key
+          required: true
+          schema:
+            type: string
+            description: The api key for which user want to verify the validity
+      responses:
+        '200': 
+          description: Returns the metadata from given api key, if a valid api key is provided.
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/apiValidity'
+        '404': 
+          description: Returned for an invalid API key.
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/apiValidity'
               
 components: 
   schemas: 
@@ -283,6 +344,20 @@ components:
           type: string
           description: The updated password.
           example: clinton@123
+    apiValidity:  
+      type: object
+      required: 
+        - customer
+        - validTill
+      properties:
+        customer: 
+          type: string
+          description: The customer to whoom this api is issued to. Generally could be company name or product name.
+          example: Apple
+        validTill: 
+          type: string
+          description: The time stamp till which the api key is valid(in EST).
+          example: "2020-10-16T13:54:11.851+00:00"
     clientError: 
       type: object
       properties:
@@ -290,3 +365,18 @@ components:
           type: string
           description: Best guess for the request failure.
           example: Reason for failure.
+  responses: 
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+            example: mail to owner@idms.com
+  securitySchemes:
+    ApiKeyAuth: 
+      type: apiKey
+      in: header
+      name: X-idms-Auth
+security: 
+  - ApiKeyAuth: []
