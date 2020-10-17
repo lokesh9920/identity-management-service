@@ -30,4 +30,5 @@ public class LoggingConstants {
 	public static final String RESOURCE_CREATION_SUCCESSFUL = "[RESOURCE CREATED]: Created new {}: {}, successfully";
 
 	
+	public static final String HOST_NAME= "[REQUEST HOST]: Request recieved from : {}";
 }

@@ -1,0 +1,75 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: 'http://localhost:9999/identity-management/v1'
+info:
+  description: Internal APIs dev profiled only should be used by Lokesh Tangella
+  version: 1.0.0
+  title: Internal APIs for identity-management-service
+  contact:
+    email: tangella.lokesh@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://localhost:9999/identity-management/v1'
+tags: 
+    - name: internal
+paths:
+  '/internal/accesskeys':
+    post: 
+      summary: Generate an API key for Customer.
+      description: Available only in "dev" profile. Only Lokesh will use this api to generate API key for customers with a validity for some defined period.
+      tags: 
+        - internal
+      requestBody:
+        description: Customer name and validity time
+        content:
+          application/json:  
+            schema: 
+              $ref: '#/components/schemas/generateApiKey'
+      responses: 
+        '200':
+          description: The request is successful and api key is in response.
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/generatedApiKey'
+          
+
+components: 
+  schemas: 
+    generateApiKey: 
+        type: object
+        required: 
+          - customer
+          - howLong
+        properties: 
+          customer: 
+            type: string
+            description: The name of the customer to whoom this api key is needed. Ask the customer to keep this same name in docker-compose env porperties for customer name( not necessary yet).
+            example: Apple ProdWatch7
+          howLong: 
+            type: number
+            format: int64
+            description: Time in milliseconds for how long this api shouls be valid, for ex, if user want api key for 1 day then this value should be = 24*60*60*1000 = 86400000
+            example: 86400000
+    generatedApiKey: 
+      type: object
+      description: The success response.
+      required: 
+        - customer
+        - howLong
+        - apiKey
+      properties:
+          customer: 
+            type: string
+            description: The name of the customer to whoom this api key is needed. Ask the customer to keep this same name in docker-compose env porperties for customer name( not necessary yet).
+            example: Apple ProdWatch7
+          howLong: 
+            type: number
+            format: int64
+            description: Time in milliseconds for how long this api shouls be valid, for ex, if user want api key for 1 day then this value should be = 24*60*60*1000 = 86400000
+            example: 86400000
+          apiKey: 
+            type: string
+            description: The api key alloted for this customer valid till howLong parameter+currenttime.
+            example: xrxpEDY643EVd3ECnkz5qYp3R7N5iioCTGC4KG8PpZY

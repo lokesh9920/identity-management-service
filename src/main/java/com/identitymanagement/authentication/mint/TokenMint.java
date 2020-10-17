@@ -1,4 +1,4 @@
-package com.identitymanagement.authentication.service;
+package com.identitymanagement.authentication.mint;
 
 import java.util.HashMap;
 
@@ -26,6 +26,9 @@ public class TokenMint {
 	@Value("${jwt.issuer}")
 	String issuer;
 	
+	@Value("${api.key.issuer")
+	String apiKeyIssuer;
+	
 	@Value("${jwt.validity}")
 	long tokenValidity;
 	
@@ -48,7 +51,8 @@ public class TokenMint {
 		return jwtToken;
 	}
 	
-	public String validateToken(String jwsToken) {
+	
+	public String validateToken(String jwsToken,boolean isApitoken) {
 		try {
 			
 			logger.info(LoggingConstants.TOKEN_VALIDATION_REQUESTED);
@@ -56,7 +60,8 @@ public class TokenMint {
 			
 			long tokenLife = Long.parseLong(tokenClaims.get("valid_through").toString());
 			long tokenBirth = Long.parseLong(tokenClaims.get("issued_at").toString());
-			if(!tokenClaims.get("issuer").equals(issuer))
+			
+			if(( isApitoken && !tokenClaims.get("issuer").equals(apiKeyIssuer) )|| ( !isApitoken && !tokenClaims.get("issuer").equals(issuer)))
 				throw new InvalidToken("Token is Tampered");
 			if(tokenLife < System.currentTimeMillis())
 				throw new InvalidToken("Token Expired");

@@ -2,11 +2,9 @@ package com.identitymanagement.authentication.model;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Null;
 
 import com.identitymanagement.authentication.entity.User;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

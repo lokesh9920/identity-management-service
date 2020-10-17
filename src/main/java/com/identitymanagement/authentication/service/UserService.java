@@ -12,6 +12,7 @@ import com.identitymanagement.authentication.exception.LinkExpiredException;
 import com.identitymanagement.authentication.exception.ResourceNotFoundException;
 import com.identitymanagement.authentication.logging.LoggingConstants;
 import com.identitymanagement.authentication.mapper.UserMapper;
+import com.identitymanagement.authentication.mint.UniqueIdentifierMint;
 import com.identitymanagement.authentication.model.Password;
 import com.identitymanagement.authentication.model.UserDetails;
 

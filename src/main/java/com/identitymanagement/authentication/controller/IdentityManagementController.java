@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.identitymanagement.authentication.entity.User;
 import com.identitymanagement.authentication.logging.LoggingConstants;
+import com.identitymanagement.authentication.mint.TokenMint;
 import com.identitymanagement.authentication.model.UserDetails;
 import com.identitymanagement.authentication.model.UserMetaData;
 import com.identitymanagement.authentication.model.UserSecrets;
-import com.identitymanagement.authentication.service.TokenMint;
 import com.identitymanagement.authentication.service.UserService;
 import com.identitymanagement.authentication.validation.UserValidation;
 
