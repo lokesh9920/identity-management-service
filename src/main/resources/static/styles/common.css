@@ -1,0 +1,20 @@
+html{
+    background-color: rgb(240, 240, 245);
+    padding-top: 1%;
+    padding-bottom: 3%;
+}
+
+footer {
+       
+    position: absolute;
+    padding-bottom: 5%;
+    padding-left: 40%;
+    float: inline-end;
+    margin-top: 20%;
+}   
+
+
+button:hover{
+    background-color:  rgb(170, 240, 170);
+    
+}
