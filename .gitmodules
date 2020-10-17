@@ -1,0 +1,3 @@
+[submodule "identity-management-service-APIs"]
+	path = identity-management-service-APIs
+	url = https://github.com/lokesh9920/identity-management-service-APIs.git
