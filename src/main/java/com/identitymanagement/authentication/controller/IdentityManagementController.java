@@ -1,6 +1,5 @@
 package com.identitymanagement.authentication.controller;
 
-
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;

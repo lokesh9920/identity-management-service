@@ -37,6 +37,7 @@ public class AccountManagementController {
 	Logger logger = LogManager.getLogger(AccountManagementController.class);
 	
 	@PutMapping
+	@CrossOrigin
 	public ResponseEntity<Object> requestResetPasswordLink(@Valid @RequestBody UserName user, ServletRequest request){
 		
 		logger.info(LoggingConstants.REQUEST_LOGGER,"PUT","/users/account-management");
@@ -50,7 +51,6 @@ public class AccountManagementController {
 	}
 	
 	@PutMapping("/{uniqueIdentifier}")
-	@CrossOrigin
 	public ResponseEntity<Object> resetPassword(@Valid @RequestBody Password user, @PathVariable(value = "uniqueIdentifier") String uniqueIdentifier, HttpServletRequest httpRequest){
 		
 		logger.info(LoggingConstants.REQUEST_LOGGER,"PUT","/users/account-management/{uqid}");

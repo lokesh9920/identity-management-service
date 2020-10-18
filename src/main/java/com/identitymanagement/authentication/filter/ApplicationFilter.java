@@ -15,6 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.identitymanagement.authentication.exception.InvalidToken;
 import com.identitymanagement.authentication.logging.LoggingConstants;
@@ -40,9 +42,13 @@ public class ApplicationFilter implements Filter{
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResposne = (HttpServletResponse) response;
-		
 		logger.info(LoggingConstants.HOST_NAME, httpRequest.getRemoteHost());
+		logger.info("the method is " + httpRequest.getMethod());
 		
+		// To solve CORS (CROSS ORIGIN REQUESTS) Problem, this way options method need not have api key, so that cors requests succeeds.
+		if(httpRequest.getMethod().equals("OPTIONS")) chain.doFilter(request, response);
+		
+		else {
 		String apiKey = httpRequest.getHeader("X-idms-Auth");
 
 			try {
@@ -65,5 +71,5 @@ public class ApplicationFilter implements Filter{
 			}
 	
 		}
-
+	}
 }
