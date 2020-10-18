@@ -24,6 +24,7 @@ import com.identitymanagement.authentication.service.UserService;
 
 @RestController
 @RequestMapping("/users/account-management")
+@CrossOrigin
 public class AccountManagementController {
 
 	
