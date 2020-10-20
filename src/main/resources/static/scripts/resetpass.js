@@ -6,10 +6,9 @@ let success = document.getElementById("done");
 let failed = document.getElementById("failed");
 
 
-let backendURL = 'http://localhost:9999'
 
 
-let uqid=document.getElementById("uqid");
+let uquri=document.getElementById("uqid");
 
 
 submiting.addEventListener('click',onsubmiting);
@@ -21,7 +20,7 @@ function onsubmiting(){
 
     if(passValue === confirmPassValue){
     	warning.style.display='none';
-        let restReset = fetch(backendURL + '/identity-management/v1/users/account-management/'+uqid.textContent,{
+        let restReset = fetch(uqid.textContent,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

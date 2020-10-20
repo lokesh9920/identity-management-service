@@ -45,12 +45,11 @@ public class AccountManagementViewsController {
 			model.addAttribute("whyBad", "Uh oh! It's on you now, Seems like you opened the wrong link");
 			return "badpage";
 		}
-		
+		StringBuffer requestURI = httpRequest.getRequestURL();
 		// link is good and verified
-		
 		logger.info(LoggingConstants.BAD_VIEW_RESPONSE,"resetpassword page",uniqueIdentifier,"Valid Link");
 
-		model.addAttribute("uqid", uniqueIdentifier);
+		model.addAttribute("uqid", requestURI);
 		return "resetpassword";
 	}
 	

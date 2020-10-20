@@ -55,7 +55,6 @@ public class AccountManagementController {
 		
 		logger.info(LoggingConstants.REQUEST_LOGGER,"PUT","/users/account-management/{uqid}");
 
-		
 		long userId = userService.validateLinkLifeAndParseUserId(uniqueIdentifier);
 		userService.updatePassword(userId,user);
 		
